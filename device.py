@@ -76,8 +76,8 @@ class EmulatedSerialDevice(object):
         self.write(chr(ControlCode.ACK) + "\x0d")
 
     #TODO: negative values
-    def return_temperature(self, temperature):
-        r = chr(ControlCode.STX) + chr(CommandCode.SET_TEMPERATURE)
+    def return_temperature(self, temperature, commandCode=CommandCode.SET_TEMPERATURE):
+        r = chr(ControlCode.STX) + chr(commandCode)
 
         temperature_string = "%05.2f"%temperature
         if len(temperature_string) > 5:
@@ -98,7 +98,7 @@ class EmulatedSerialDevice(object):
 
     # TODO: negative values
     def return_internal_sensor_temperature(self):
-        self.return_temperature(42.43)
+        self.return_temperature(42.43, commandCode=CommandCode.READ_INTERNAL_SENSOR)
 
     def computeChecksum(self, p):
         s = 0
